@@ -1,14 +1,17 @@
 import { useState } from "react";
-import Login from "./pages/Login";
-import Landing from "./pages/Landing";
-import ProtectedRoute from "./components/ProtectedRoute";
+import Login from "./pages/login";
+import Home from "./pages/home";
+import ProtectedLayout from "./components/ProtectedLayout";
+import About from "./pages/about";
+import Contact from "./pages/contact";
+import Notfound from "./pages/notFound";
 import { Routes, Route } from "react-router-dom";
 
 function App() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
 
   return (
-    <div className="flex justify-center items-center min-h-screen w-full bg-slate-200">
+    <div className="min-h-screen w-full bg-slate-200">
     <Routes>
       <Route
         path="/"
@@ -18,15 +21,30 @@ function App() {
           />
         }
       />
-
       <Route
-        path="/landing"
+    element={
+        <ProtectedLayout
+         isLoggedIn={isLoggedIn}
+         setIsLoggedIn={setIsLoggedIn}
+       />
+        }
+       >
+      <Route path="/about" element={
+        <About/>
+        } 
+        />
+      <Route path="/contact" element={
+        <Contact/>
+        }
+        />
+      <Route
+        path="/home"
         element={
-          <ProtectedRoute isLoggedIn={isLoggedIn}>
-            <Landing />
-          </ProtectedRoute>
+            <Home />
         }
       />
+      </Route>
+      <Route path="*" element={<Notfound />} />
     </Routes>
     </div>
   );
